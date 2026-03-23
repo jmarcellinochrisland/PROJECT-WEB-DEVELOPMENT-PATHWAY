@@ -407,7 +407,7 @@ body {
 }
 
 .chat-input {
-  padding: 8px 24px;
+  padding: 2px 24px;
   background: linear-gradient(135deg, #0f1419 0%, #111b21 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
@@ -1321,4 +1321,3 @@ body {
   background: #2a3942;
   border-radius: 3px;
 }
-

@@ -690,6 +690,28 @@ body {
     font-size: 13px;
   }
 
+  .chat-header-actions {
+    margin-left: 8px;
+  }
+
+  .chat-header-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: #e9edef;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .chat-header-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
   .chat-messages {
     flex: 1;
     overflow-y: auto;
@@ -766,7 +788,26 @@ body {
     color: #8696a0;
   }
 
-  .chat-input button {
+  .chat-input-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    color: #8696a0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.2s ease;
+  }
+
+  .chat-input-btn:hover {
+    color: #e9edef;
+  }
+
+  #sendBtn {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -778,6 +819,52 @@ body {
     justify-content: center;
     cursor: pointer;
     font-size: 18px;
+  }
+
+  /* Chat Options Menu */
+  .chat-options-menu {
+    position: fixed;
+    top: 60px;
+    right: 16px;
+    background: #202c33;
+    border: 1px solid #2a3942;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: none;
+    min-width: 200px;
+  }
+
+  .chat-options-menu.show {
+    display: block;
+  }
+
+  .chat-options-menu button {
+    width: 100%;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    color: #e9edef;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
+
+  .chat-options-menu button:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .chat-options-menu button i {
+    width: 20px;
+    text-align: center;
+  }
+
+  .chat-options-menu button span {
+    flex: 1;
+    text-align: left;
   }
 
   /* Form Overlay */
@@ -846,6 +933,7 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 12px;
+    padding: 16px 24px;
   }
   
   .add-contact-btn {
@@ -857,8 +945,21 @@ body {
     max-width: 420px;
   }
   
+  .sidebar-header {
+    padding: 20px;
+  }
+  
+  .search-container {
+    position: relative;
+    margin-bottom: 0;
+  }
+  
+  .sidebar-btn {
+    display: none; /* Hide mobile add button on desktop */
+  }
+  
   .form-card {
-    max-width: 400px;
+    max-width: 500px;
   }
 }
 

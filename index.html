@@ -26,6 +26,9 @@
         <div class="search-container">
           <span class="search-icon">🔍</span>
           <input type="text" class="search-input" id="searchInput" placeholder="Cari kontak atau chat..." />
+          <button class="sidebar-btn" onclick="openNewContactForm()">
+            <i class="fas fa-user-plus"></i>
+          </button>
         </div>
       </div>  
       <div class="contacts-list" id="contactsList">
@@ -35,13 +38,16 @@
 
     <!-- Chat Area -->
     <section class="chat-area" id="chatArea">
-      <div class="chat-header">
+      <header class="chat-header">
+        <div class="chat-header-back" onclick="backToContacts()">
+          <i class="fas fa-arrow-left"></i>
+        </div>
         <div class="chat-header-avatar"></div>
         <div class="chat-header-info">
-          <h3 id="chatTitle" style="color: white;">Pilih kontak</h3>
-          <p id="chatStatus" style="color: white;">Klik kontak untuk chat</p>
+          <div class="chat-header-name" id="chatTitle">Pilih kontak</div>
+          <div class="chat-header-status" id="chatStatus" style="color: white;">Klik kontak untuk chat</div>
         </div>
-      </div>
+      </header>
       <div class="chat-messages" id="chatMessages" style="color: white;">
         <div style="text-align: center; color: #8696a0; margin-top: 100px;">
           Pilih kontak untuk memulai chat

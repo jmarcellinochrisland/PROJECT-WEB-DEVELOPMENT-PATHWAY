@@ -16,6 +16,20 @@ let contacts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 let currentContactId = null;
 let filter = '';
 
+// Open new contact form
+function openNewContactForm() {
+  openForm();
+}
+
+// Back to contacts function
+function backToContacts() {
+  if (window.innerWidth <= 768) {
+    sidebar.classList.add('show');
+    chatArea.classList.remove('active');
+    currentContactId = null;
+  }
+}
+
 // Check screen size and adjust layout
 function checkScreenSize() {
   if (window.innerWidth > 768) {
@@ -142,11 +156,11 @@ function selectContact(id) {
     const chatHeaderAvatar = document.querySelector('.chat-header-avatar');
     if (chatHeaderAvatar) {
       chatHeaderAvatar.textContent = contact.name.charAt(0).toUpperCase();
-      chatHeaderAvatar.style.background = 'linear-gradient(135deg, #25d366, #128c7e)';
+      chatHeaderAvatar.style.background = '#d9fdd3';
+      chatHeaderAvatar.style.color = '#111b21';
       chatHeaderAvatar.style.display = 'flex';
       chatHeaderAvatar.style.alignItems = 'center';
       chatHeaderAvatar.style.justifyContent = 'center';
-      chatHeaderAvatar.style.color = 'white';
       chatHeaderAvatar.style.fontWeight = '600';
       chatHeaderAvatar.style.fontSize = '16px';
     }
@@ -160,7 +174,6 @@ function selectContact(id) {
       chatArea.classList.add('active');
     }
     
-    chatArea.scrollIntoView({ behavior: 'smooth' });
     renderContacts();
   }
 }
@@ -190,14 +203,48 @@ function editContact(id) {
 function deleteContact(id) {
   const contact = contacts.find(c => c.id === id);
   if (contact) {
-    if (confirm(`Apakah Anda yakin ingin menghapus kontak "${contact.name}"?`)) {
+    // Create custom confirmation modal
+    const confirmationModal = document.createElement('div');
+    confirmationModal.className = 'delete-confirmation-modal';
+    confirmationModal.innerHTML = `
+      <div class="delete-modal-content">
+        <div class="delete-modal-header">
+          <div class="delete-avatar">${contact.name.charAt(0).toUpperCase()}</div>
+          <h3>Hapus Kontak</h3>
+        </div>
+        <div class="delete-modal-body">
+          <p>Apakah Anda yakin ingin menghapus kontak <strong>"${contact.name}"</strong>?</p>
+          <p class="delete-warning">Semua riwayat chat akan dihapus secara permanen.</p>
+        </div>
+        <div class="delete-modal-actions">
+          <button class="btn-cancel-delete">Batal</button>
+          <button class="btn-confirm-delete">Hapus</button>
+        </div>
+      </div>
+    `;
+    
+    // Add modal to body
+    document.body.appendChild(confirmationModal);
+    
+    // Add event listeners
+    const cancelBtn = confirmationModal.querySelector('.btn-cancel-delete');
+    const confirmBtn = confirmationModal.querySelector('.btn-confirm-delete');
+    
+    cancelBtn.addEventListener('click', () => {
+      document.body.removeChild(confirmationModal);
+    });
+    
+    confirmBtn.addEventListener('click', () => {
+      // Add loading state
+      confirmBtn.innerHTML = 'Menghapus...';
+      confirmBtn.disabled = true;
+      
+      // Remove from contacts array
       contacts = contacts.filter(c => c.id !== id);
       saveContacts();
       
       // Delete chat history for this contact
       localStorage.removeItem(`chat_history_${id}`);
-      
-      renderContacts();
       
       // If deleted contact was selected, clear chat area and reset mobile view
       if (currentContactId === id) {
@@ -210,7 +257,7 @@ function deleteContact(id) {
         const chatHeaderAvatar = document.querySelector('.chat-header-avatar');
         if (chatHeaderAvatar) {
           chatHeaderAvatar.textContent = '';
-          chatHeaderAvatar.style.background = '#25d366';
+          chatHeaderAvatar.style.background = '#d9fdd3';
         }
         
         // On mobile, go back to contacts list
@@ -219,8 +266,44 @@ function deleteContact(id) {
           chatArea.classList.remove('active');
         }
       }
-    }
+      
+      // Remove modal
+      document.body.removeChild(confirmationModal);
+      
+      // Show success notification
+      showNotification(`Kontak "${contact.name}" berhasil dihapus`, 'success');
+      
+      renderContacts();
+    });
+    
+    // Close modal on outside click
+    confirmationModal.addEventListener('click', (e) => {
+      if (e.target === confirmationModal) {
+        document.body.removeChild(confirmationModal);
+      }
+    });
   }
+}
+
+// Notification function
+function showNotification(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.innerHTML = `
+    <div class="notification-content">
+      <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+      <span>${message}</span>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Auto remove after 3 seconds
+  setTimeout(() => {
+    if (document.body.contains(notification)) {
+      document.body.removeChild(notification);
+    }
+  }, 3000);
 }
 
 contactForm.addEventListener('submit', (e) => {

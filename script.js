@@ -16,6 +16,74 @@ let contacts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 let currentContactId = null;
 let filter = '';
 
+// Toggle chat options menu
+function toggleChatOptions() {
+  const menu = document.getElementById('chatOptionsMenu');
+  if (menu.classList.contains('show')) {
+    menu.classList.remove('show');
+  } else {
+    menu.classList.add('show');
+  }
+}
+
+// Close chat options when clicking outside
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('chatOptionsMenu');
+  const btn = e.target.closest('.chat-header-btn');
+  if (!btn && menu.classList.contains('show')) {
+    menu.classList.remove('show');
+  }
+});
+
+// Chat options functions
+function viewContactInfo() {
+  if (currentContactId) {
+    const contact = contacts.find(c => c.id === currentContactId);
+    if (contact) {
+      showNotification(`Info: ${contact.name} (${contact.phone})`, 'info');
+    }
+  }
+  toggleChatOptions();
+}
+
+function clearChat() {
+  if (currentContactId) {
+    if (confirm('Apakah Anda yakin ingin menghapus semua chat?')) {
+      localStorage.removeItem(`chat_history_${currentContactId}`);
+      renderChatMessages(currentContactId);
+      showNotification('Chat berhasil dihapus', 'success');
+    }
+  }
+  toggleChatOptions();
+}
+
+function muteNotifications() {
+  showNotification('Notifikasi dibisukan', 'info');
+  toggleChatOptions();
+}
+
+function blockContact() {
+  if (currentContactId) {
+    const contact = contacts.find(c => c.id === currentContactId);
+    if (contact) {
+      if (confirm(`Apakah Anda yakin ingin memblokir ${contact.name}?`)) {
+        showNotification(`${contact.name} diblokir`, 'success');
+      }
+    }
+  }
+  toggleChatOptions();
+}
+
+// Attach file function
+function attachFile() {
+  showNotification('Fitur lampir file akan segera hadir', 'info');
+}
+
+// Toggle emoji function
+function toggleEmoji() {
+  showNotification('Fitur emoji akan segera hadir', 'info');
+}
+
 // Open new contact form
 function openNewContactForm() {
   openForm();

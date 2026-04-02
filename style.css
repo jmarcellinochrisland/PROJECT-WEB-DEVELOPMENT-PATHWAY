@@ -133,7 +133,6 @@ body {
   background: rgba(255, 255, 255, 0.1);
   color: #e9edef;
   font-size: 14px;
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
 }
@@ -359,7 +358,6 @@ body {
   padding: 24px;
   overflow-y: auto;
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='20' height='20'><circle cx='2' cy='2' r='1' fill='%23e9edef' opacity='0.03'/></pattern></defs><rect width='100' height='100' fill='url(%23a)'/></svg>");
-  backdrop-filter: blur(5px);
 }
 
 .message {
@@ -408,7 +406,7 @@ body {
 
 .chat-input {
   padding: 8px 16px;
-  background: linear-gradient(135deg, #0f1419 0%, #111b21 100%);
+  background: linear-gradient(180deg, #0f1419 0%, #111b21 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
@@ -425,7 +423,6 @@ body {
     padding: 24px;
     overflow-y: auto;
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='20' height='20'><circle cx='2' cy='2' r='1' fill='%23e9edef' opacity='0.03'/></pattern></defs><rect width='100' height='100' fill='url(%23a)'/></svg>");
-    backdrop-filter: blur(5px);
   }
   
   /* Hide chat options button and menu on desktop */
@@ -446,7 +443,6 @@ body {
   background: rgba(255, 255, 255, 0.1);
   color: #e9edef;
   font-size: 14px;
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
   min-height: 40px;
@@ -497,7 +493,6 @@ body {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
   display: none;
   align-items: center;
   justify-content: center;
@@ -518,7 +513,6 @@ body {
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
 }
 
 .form-group {
@@ -543,7 +537,6 @@ body {
   background: rgba(255, 255, 255, 0.1);
   color: #e9edef;
   font-size: 14px;
-  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
@@ -594,7 +587,6 @@ body {
   background: transparent;
   color: #e9edef;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
@@ -794,7 +786,49 @@ body {
   }
   
   .contact-actions {
-    display: none;
+    display: flex;
+    gap: 6px;
+    margin-left: 8px;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    pointer-events: auto;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .contact-actions button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: #e9edef;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    pointer-events: auto;
+    touch-action: manipulation;
+    position: relative;
+    z-index: 15;
+  }
+  
+  .contact-actions button:active {
+    transform: scale(0.95);
+  }
+  
+  .contact-actions .btn-delete:hover,
+  .contact-actions .btn-delete:active {
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+  }
+  
+  .contact-actions .btn-edit:hover,
+  .contact-actions .btn-edit:active {
+    background: rgba(40, 167, 69, 0.9);
+    color: white;
   }
   
   /* Chat Area */
@@ -870,6 +904,7 @@ body {
 
   .chat-header-actions {
     margin-left: 8px;
+    display: flex;
   }
 
   .chat-header-btn {
@@ -884,10 +919,16 @@ body {
     justify-content: center;
     cursor: pointer;
     font-size: 14px;
+    pointer-events: auto;
+    touch-action: manipulation;
   }
 
   .chat-header-btn:hover {
     background: rgba(255, 255, 255, 0.1);
+  }
+
+  .chat-header-btn:active {
+    transform: scale(0.95);
   }
 
   .chat-messages {
@@ -897,6 +938,8 @@ body {
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cdefs%3E%3Cpattern id='a' patternUnits='userSpaceOnUse' width='10' height='10'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23e9edef' opacity='0.03'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23a)'/%3E%3C/svg%3E");
     display: flex;
     flex-direction: column;
+    margin-bottom: 0;
+    padding-bottom: 12px;
   }
 
   .message {
@@ -943,23 +986,27 @@ body {
 
   .chat-input {
     background: #202c33;
-    padding: 8px 16px;
+    padding: 12px 16px;
     border-top: 1px solid #2a3942;
     display: flex;
     align-items: center;
     gap: 8px;
     flex-shrink: 0;
+    position: relative;
+    z-index: 5;
   }
 
   .chat-input input {
     flex: 1;
-    padding: 8px 12px;
+    padding: 10px 12px;
     background: #0b141a;
     border: none;
     border-radius: 20px;
     color: #e9edef;
     font-size: 15px;
     outline: none;
+    height: 40px;
+    min-height: 40px;
   }
 
   .chat-input input::placeholder {
@@ -979,6 +1026,7 @@ body {
     cursor: pointer;
     font-size: 16px;
     transition: color 0.2s ease;
+    flex-shrink: 0;
   }
 
   .chat-input-btn:hover {
@@ -997,6 +1045,7 @@ body {
     justify-content: center;
     cursor: pointer;
     font-size: 18px;
+    flex-shrink: 0;
   }
 
   /* Chat Options Menu */
@@ -1011,6 +1060,7 @@ body {
     z-index: 100;
     display: none;
     min-width: 200px;
+    max-width: calc(100vw - 32px);
   }
 
   .chat-options-menu.show {
@@ -1029,10 +1079,17 @@ body {
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s ease;
+    pointer-events: auto;
+    touch-action: manipulation;
   }
 
   .chat-options-menu button:hover {
     background: rgba(255, 255, 255, 0.1);
+  }
+
+  .chat-options-menu button:active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.98);
   }
 
   .chat-options-menu button i {
